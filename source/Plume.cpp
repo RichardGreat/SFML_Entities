@@ -61,8 +61,8 @@ void Plume::resetParticle(std::size_t index)
 void Plume::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.blendMode = sf::BlendAdd;
-	states.shader = m_shader;
-	states.texture = m_texture;
+	states.shader    = m_shader;
+	states.texture   = m_texture;
 
 	target.draw(m_points, states);
 }
