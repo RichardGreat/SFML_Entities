@@ -1,6 +1,34 @@
 #include "Plume.hpp"
+#include "Sprite.hpp"
+#include "Animator.hpp"
+
+#include <string_view>
 
 sf::VideoMode screen(800, 600);
+
+sf::Texture* get_texture(const std::string_view name)
+{
+    static std::map<std::string_view, sf::Texture> textures;
+
+    if (auto found = textures.find(name); found != textures.end())
+        return &found->second;
+    else
+    {
+        auto texture = &textures[name];
+        std::string filename{ name };
+
+        if (!texture->loadFromFile("resources/textures/" + filename + ".png"))
+            if (!texture->loadFromFile("resources/textures/" + filename + ".jpg"))
+            {
+                sf::Image image;
+                image.create(50u, 50u, sf::Color::Red);
+                texture->loadFromImage(image);
+            }
+        texture->setSmooth(true);
+
+        return texture;
+    }
+}
 
 int main()
 {
@@ -9,9 +37,15 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    sf::Texture texture;
-    texture.loadFromFile("resources/textures/quad.png");
-    texture.setSmooth(true);
+    auto quad_texture =  get_texture("quad");
+    auto star_texture = get_texture("star1");
+
+    Sprite star(star_texture);
+    star.setSize(sf::Vector2f(50, 50));
+    star.setPosition(sf::Vector2f(screen.width / 2.0f, screen.height / 2.0f));
+
+    Animator<Sprite> animator(*star_texture, 5, sf::seconds(1.0f / 16));
+    animator.set(star);
 
     sf::Shader shader;
 
@@ -25,7 +59,7 @@ int main()
     shader.setUniform("size", sf::Vector2f(50, 50));
     shader.setUniform("texture", sf::Shader::CurrentTexture);
 
-    Plume effect(texture, shader, 100);
+    Plume effect(*quad_texture, shader, 100);
 
     sf::Clock clock;
     sf::Time delta_time;
@@ -44,9 +78,11 @@ int main()
         effect.setEmitter(window.mapPixelToCoords(mouse));
 
         effect.update(delta_time);
+        animator.update(delta_time);
 
         window.clear();
         window.draw(effect);
+        window.draw(star);
         window.display();
     }
     return EXIT_SUCCESS;

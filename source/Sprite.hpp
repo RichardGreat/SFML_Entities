@@ -7,11 +7,11 @@ class Sprite : public sf::Drawable
 public:
 	Sprite();
 	Sprite(sf::Texture* texture);
-	Sprite(sf::Texture* texture, const sf::FloatRect& rectangle);
+	Sprite(sf::Texture* texture, const sf::IntRect& rectangle);
 	~Sprite();
 
 	void setTexture(sf::Texture* texture);
-	void setTextureRect(const sf::FloatRect& rect);
+	void setTextureRect(const sf::IntRect& rect);
 	void setColor(sf::Color color);
 	void setOpacity(sf::Uint8 opacity);
 	void setSize(sf::Vector2f size);
