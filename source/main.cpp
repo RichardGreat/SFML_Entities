@@ -74,8 +74,8 @@ int main()
 
         delta_time = clock.restart();
 
-        sf::Vector2i mouse = sf::Mouse::getPosition(window);
-        effect.setEmitter(window.mapPixelToCoords(mouse));
+        sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
+        effect.setEmitter(mouse);
 
         effect.update(delta_time);
         animator.update(delta_time);
