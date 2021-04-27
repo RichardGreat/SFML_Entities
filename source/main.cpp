@@ -44,7 +44,7 @@ int main()
     star.setSize(sf::Vector2f(50, 50));
     star.setPosition(sf::Vector2f(screen.width / 2.0f, screen.height / 2.0f));
 
-    Animator<Sprite> animator(*star_texture, 5, sf::seconds(1.0f / 16));
+    Animator<Sprite> animator(*star_texture, 5, sf::seconds(1.0f / 12));
     animator.set(star);
 
     sf::Shader shader;
@@ -76,6 +76,11 @@ int main()
 
         sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
         effect.setEmitter(mouse);
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+
+        }
 
         effect.update(delta_time);
         animator.update(delta_time);
