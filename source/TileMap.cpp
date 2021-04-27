@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <string>
 
 bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 {
@@ -25,14 +26,14 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 
 	tinyxml2::XMLElement* root = document.FirstChildElement("map");
 
-	const size_t tile_width  = std::stoul(root->Attribute("tilewidth"));
-	const size_t tile_height = std::stoul(root->Attribute("tileheight"));
+	const std::size_t tile_width  = std::stoul(root->Attribute("tilewidth"));
+	const std::size_t tile_height = std::stoul(root->Attribute("tileheight"));
 
-	const size_t rows    = tileset->getSize().x / tile_width;
-	const size_t columns = tileset->getSize().y / tile_height;
+	const std::size_t rows    = tileset->getSize().x / tile_width;
+	const std::size_t columns = tileset->getSize().y / tile_height;
 
-	const size_t map_width  = std::stoul(root->Attribute("width"));
-	const size_t map_height = std::stoul(root->Attribute("height"));
+	const std::size_t map_width  = std::stoul(root->Attribute("width"));
+	const std::size_t map_height = std::stoul(root->Attribute("height"));
 
 	m_bounds = sf::Vector2u(map_width * tile_width, map_height * tile_height);
 
@@ -64,7 +65,7 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 		current_layer.shrink_to_fit();
 
 		std::size_t tile_count = std::count_if(current_layer.begin(), current_layer.end(),
-			[](std::size_t id)
+			[](unsigned id)
 			{
 				return id > 0;
 			});
