@@ -7,6 +7,8 @@
 
 sf::VideoMode screen(800, 600);
 
+bool create_image(const char* tmx_file_path);
+
 sf::Texture* get_texture(const std::string_view name)
 {
     static std::map<std::string_view, sf::Texture> textures;
@@ -37,6 +39,9 @@ int main()
 
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
+
+    if(!create_image("resources/maps/test.tmx"))
+        return EXIT_FAILURE;
 
     TileMap map;
 
