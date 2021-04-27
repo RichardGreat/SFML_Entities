@@ -2,6 +2,7 @@
 #include "tinyxml2.h"
 
 #include <iostream>
+#include <sstream>
 #include <algorithm>
 
 bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
@@ -47,29 +48,22 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 		      layer = layer->NextSiblingElement("layer"))
 	{
 		tinyxml2::XMLElement* data = layer->FirstChildElement("data");
-		std::string dirty_string = data->GetText(), buffer;
 
-		std::vector<std::size_t> current_layer;
-		current_layer.reserve(dirty_string.size());
+		std::string cvs_data = data->GetText();
+		std::replace(cvs_data.begin(), cvs_data.end(), ',', ' ');
 
-		for (auto& character : dirty_string)
-		{
-			if (isdigit(character))
-				buffer += character;
-			else
-				if (!buffer.empty())
-				{
-					current_layer.push_back(std::stoi(buffer));
-					buffer.clear();
-				}
-		}
+		std::vector<unsigned> current_layer;
+		current_layer.reserve(cvs_data.size());
+
+		unsigned id = 0;
+		std::istringstream sstream(cvs_data);
+
+		while (sstream >> id)
+			current_layer.push_back(id);
+
 		current_layer.shrink_to_fit();
 
-		std::size_t tile_count = std::count_if(current_layer.begin(), current_layer.end(),
-			[=](std::size_t id)
-			{
-				return id > 0;
-			});
+		std::size_t tile_count = std::count(current_layer.begin(), current_layer.end(), 0);
 
 		std::vector<sf::Vertex> vertices;
 		vertices.reserve(tile_count * 4);		
@@ -78,7 +72,7 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 			for (std::size_t x = 0; x < map_width; ++x)
 			{
 				std::size_t index = x + y * map_width;
-				std::size_t tile_id = current_layer[index];
+				unsigned tile_id = current_layer[index];
 
 				if (tile_id) 
 				{

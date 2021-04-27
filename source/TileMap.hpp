@@ -6,7 +6,9 @@
 class TileMap : public sf::Drawable
 {
 public:
-	TileMap()  = default;
+	TileMap():
+		m_tileset(nullptr) {};
+
 	~TileMap() = default;
 
 	bool load(const char* tmx_file_path, const sf::Texture* tileset);
