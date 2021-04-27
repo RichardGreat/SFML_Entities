@@ -1,6 +1,7 @@
 #include "Plume.hpp"
 #include "Sprite.hpp"
 #include "Animator.hpp"
+#include "TileMap.hpp"
 
 #include <string_view>
 
@@ -37,7 +38,18 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    auto quad_texture =  get_texture("quad");
+    TileMap map;
+
+    if(!map.load("resources/maps/World_1_1.tmx", get_texture("mario_tiles")))
+        return EXIT_FAILURE;
+
+    auto t_sky = get_texture("sky");
+    t_sky->setRepeated(true);
+    sf::Sprite s_sky(*t_sky, sf::IntRect(0, 0, map.bounds().x, map.bounds().y));
+
+    sf::View viewport(sf::FloatRect(0, 0, screen.width, screen.height));
+
+    /*auto quad_texture =  get_texture("quad");
     auto star_texture = get_texture("star1");
 
     Sprite star(star_texture);
@@ -59,7 +71,7 @@ int main()
     shader.setUniform("size", sf::Vector2f(50, 50));
     shader.setUniform("texture", sf::Shader::CurrentTexture);
 
-    Plume effect(*quad_texture, shader, 100);
+    Plume effect(*quad_texture, shader, 100);*/
 
     sf::Clock clock;
     sf::Time delta_time;
@@ -72,22 +84,38 @@ int main()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+            viewport.move(-5, 0);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+            viewport.move(5, 0);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            viewport.move(0, -5);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            viewport.move(0, 5);
+
         delta_time = clock.restart();
 
-        sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
-        effect.setEmitter(mouse);
+        //sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
+        //effect.setEmitter(mouse);
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
 
         }
 
         effect.update(delta_time);
-        animator.update(delta_time);
+        animator.update(delta_time);*/
+
+        window.setView(viewport);
 
         window.clear();
-        window.draw(effect);
-        window.draw(star);
+        window.draw(s_sky);
+        window.draw(map);
+        //window.draw(effect);
+        //window.draw(star);
         window.display();
     }
     return EXIT_SUCCESS;
