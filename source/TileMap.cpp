@@ -63,7 +63,11 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 
 		current_layer.shrink_to_fit();
 
-		std::size_t tile_count = std::count(current_layer.begin(), current_layer.end(), 0);
+		std::size_t tile_count = std::count_if(current_layer.begin(), current_layer.end(),
+			[](std::size_t id)
+			{
+				return id > 0;
+			});
 
 		std::vector<sf::Vertex> vertices;
 		vertices.reserve(tile_count * 4);		
