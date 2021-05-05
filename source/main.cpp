@@ -49,7 +49,7 @@ int main()
         return EXIT_FAILURE;
 
     auto t_sky = get_texture("sky");
-    t_sky->setRepeated(true);
+    t_sky->setRepeated(true); // GL_Repeat
     sf::Sprite s_sky(*t_sky, sf::IntRect(0, 0, map.bounds().x, map.bounds().y));
 
     sf::View viewport(sf::FloatRect(0, 0, screen.width, screen.height));
