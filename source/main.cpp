@@ -40,21 +40,21 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    if(!create_image("resources/maps/test.tmx"))
-        return EXIT_FAILURE;
+    //if(!create_image("resources/maps/test.tmx"))
+    //    return EXIT_FAILURE;
 
-    TileMap map;
+    //TileMap map;
 
-    if(!map.load("resources/maps/World_1_1.tmx", get_texture("mario_tiles")))
-        return EXIT_FAILURE;
+    //if(!map.load("resources/maps/World_1_1.tmx", get_texture("mario_tiles")))
+    //    return EXIT_FAILURE;
 
-    auto t_sky = get_texture("sky");
-    t_sky->setRepeated(true); // GL_REPEAT
-    sf::Sprite s_sky(*t_sky, sf::IntRect(0, 0, map.bounds().x, map.bounds().y));
+    //auto t_sky = get_texture("sky");
+    //t_sky->setRepeated(true); // GL_REPEAT
+    //sf::Sprite s_sky(*t_sky, sf::IntRect(0, 0, map.bounds().x, map.bounds().y));
 
-    sf::View viewport(sf::FloatRect(0, 0, screen.width, screen.height));
+    //sf::View viewport(sf::FloatRect(0, 0, screen.width, screen.height));
 
-    /*auto quad_texture =  get_texture("quad");
+    auto quad_texture =  get_texture("quad");/*
     auto star_texture = get_texture("star1");
 
     Sprite star(star_texture);
@@ -63,7 +63,7 @@ int main()
 
     Animator<Sprite> animator(*star_texture, 5, sf::seconds(1.0f / 12));
     animator.set(star);
-
+    */
     sf::Shader shader;
 
     if (!sf::Shader::isGeometryAvailable())
@@ -76,7 +76,8 @@ int main()
     shader.setUniform("size", sf::Vector2f(50, 50));
     shader.setUniform("texture", sf::Shader::CurrentTexture);
 
-    Plume effect(*quad_texture, shader, 100);*/
+    sf::BlendMode mode = sf::BlendAdd;
+    Plume effect(*quad_texture, shader, mode, 100);
 
     sf::Clock clock;
     sf::Time delta_time;
@@ -89,7 +90,7 @@ int main()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             viewport.move(-5, 0);
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
@@ -99,27 +100,22 @@ int main()
             viewport.move(0, -5);
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            viewport.move(0, 5);
+            viewport.move(0, 5);*/
 
         delta_time = clock.restart();
 
-        //sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
-        //effect.setEmitter(mouse);
-
-        /*if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-
-        }
+        sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
+        effect.setEmitter(mouse);
 
         effect.update(delta_time);
-        animator.update(delta_time);*/
+        //animator.update(delta_time);
 
-        window.setView(viewport);
+        //window.setView(viewport);
 
         window.clear();
-        window.draw(s_sky);
-        window.draw(map);
-        //window.draw(effect);
+        //window.draw(s_sky);
+        //window.draw(map);
+        window.draw(effect);
         //window.draw(star);
         window.display();
     }

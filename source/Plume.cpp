@@ -1,12 +1,13 @@
 #include "Plume.hpp"
 
 
-Plume::Plume(sf::Texture& texture, sf::Shader& shader, std::size_t amount) :
-	m_texture(&texture),
-	m_shader(&shader),
+Plume::Plume(sf::Texture& texture, sf::Shader& shader, sf::BlendMode& mode, std::size_t amount) :
 	m_points(sf::Points, amount),
 	m_particles(amount)
 {
+	m_states.texture = &texture;
+	m_states.shader = &shader;
+	m_states.blendMode = mode;
 }
 
 Plume::~Plume()
@@ -60,9 +61,5 @@ void Plume::resetParticle(std::size_t index)
 
 void Plume::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.blendMode = sf::BlendAdd;
-	states.shader    = m_shader;
-	states.texture   = m_texture;
-
-	target.draw(m_points, states);
+	target.draw(m_points, m_states);
 }

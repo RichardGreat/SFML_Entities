@@ -8,7 +8,7 @@ extern sf::VideoMode screen;
 class Plume : public sf::Drawable
 {
 public:
-    Plume(sf::Texture& texture, sf::Shader& shader, std::size_t amount);
+    Plume(sf::Texture& texture, sf::Shader& shader, sf::BlendMode& mode, std::size_t amount);
     ~Plume();
 
     void setEmitter(sf::Vector2f position);
@@ -26,8 +26,7 @@ protected:
     };
 
     sf::Vector2f          m_emitter;
-    sf::Texture*          m_texture;
-    sf::Shader*           m_shader;
+    sf::RenderStates      m_states;
     sf::VertexArray       m_points;
     std::vector<Particle> m_particles;
 };
