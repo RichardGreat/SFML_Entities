@@ -13,11 +13,14 @@
 // Применение: создавать статичные изображения, например, заднего плана сцены - 
 // отрисовка цельным спрайтом оптимальнее массива тайлов
 
-class Tileset
+struct Tileset
 {
-public:
 	sf::Image image;
-	size_t first_tile_id, tile_width, tile_height, tile_count, columns;
+	std::size_t first_tile_id;
+	std::size_t tile_width;
+	std::size_t tile_height;
+	std::size_t tile_count;
+	std::size_t columns;
 };
 
 bool create_image(const char* tmx_file_path)
