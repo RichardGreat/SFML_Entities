@@ -11,14 +11,12 @@ public:
 	Splash(sf::Vector2f start_position, float radius);
 	~Splash();
 	
-	void update(sf::Time delta);
+	void update();
 	bool is_alive() const;
 	
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	Vertices m_vertices;
-	sf::Time m_lifetime;
-	float    m_radius;
-	float    m_offset;
+	float    m_velocity;
 };

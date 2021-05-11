@@ -56,23 +56,27 @@ int main()
         delta_time = clock.restart();
         respawn += delta_time;
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && respawn >= sf::seconds(1))
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && respawn >= sf::seconds(0.3f))
         {
             sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
 
-            splashes.emplace_back(mouse, rand() % 10);
+            splashes.emplace_back(mouse, rand() % 50);
             respawn = sf::Time::Zero;
         }
 
-        for (auto& splash : splashes)
-            if(splash.is_alive())
-                splash.update(delta_time);
-
-        std::cout << splashes.size();
-
+		if (!splashes.empty())
+			for (auto it = splashes.begin(); it != splashes.end();)
+				if (it->is_alive())
+				{
+					it->update();
+					it++;
+				}
+				else				
+					it = splashes.erase(it);				
+                           
         window.clear();
         for (auto& splash : splashes)
-            window.draw(splash);
+           window.draw(splash);
         window.display();
     }
     return EXIT_SUCCESS;
