@@ -1,12 +1,9 @@
-#include "Splash.hpp"
+#include "ParticleSystems.hpp"
 
 #include <string_view>
-#include <list>
 #include <iostream>
 
 sf::VideoMode screen(800, 600);
-
-bool create_image(const char* tmx_file_path);
 
 sf::Texture* get_texture(const std::string_view name)
 {
@@ -39,11 +36,10 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    std::list<Splash> splashes;
+    ParticleSystem_2 particles(50, 5);
 
     sf::Clock clock;
     sf::Time delta_time;
-    sf::Time respawn;
 
     while (window.isOpen())
     {
@@ -54,29 +50,13 @@ int main()
                 window.close();
 
         delta_time = clock.restart();
-        respawn += delta_time;
+        
+        sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && respawn >= sf::seconds(0.3f))
-        {
-            sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
-
-            splashes.emplace_back(mouse, rand() % 50);
-            respawn = sf::Time::Zero;
-        }
-
-		if (!splashes.empty())
-			for (auto it = splashes.begin(); it != splashes.end();)
-				if (it->is_alive())
-				{
-					it->update();
-					it++;
-				}
-				else				
-					it = splashes.erase(it);				
+        particles.update(mouse);
                            
         window.clear();
-        for (auto& splash : splashes)
-           window.draw(splash);
+        window.draw(particles);
         window.display();
     }
     return EXIT_SUCCESS;
