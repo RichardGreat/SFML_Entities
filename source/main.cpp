@@ -1,4 +1,4 @@
-#include "ParticleSystem.hpp"
+#include "Triangle.hpp"
 
 #include <string_view>
 #include <iostream>
@@ -36,8 +36,7 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    sf::Clock clock;
-    sf::Time delta_time;
+    Triangle triangle;
 
     while (window.isOpen())
     {
@@ -47,12 +46,10 @@ int main()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
 
-        delta_time = clock.restart();
-        
-        sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
+        triangle.rotate();
                            
         window.clear();
-        //window.draw(particles);
+        window.draw(triangle);
         window.display();
     }
     return EXIT_SUCCESS;
