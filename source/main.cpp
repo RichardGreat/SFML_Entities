@@ -1,4 +1,4 @@
-#include "ParticleSystems.hpp"
+#include "ParticleSystem.hpp"
 
 #include <string_view>
 #include <iostream>
@@ -36,8 +36,6 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    ParticleSystem_2 particles(50, 5);
-
     sf::Clock clock;
     sf::Time delta_time;
 
@@ -52,11 +50,9 @@ int main()
         delta_time = clock.restart();
         
         sf::Vector2f mouse = (sf::Vector2f)sf::Mouse::getPosition(window);
-
-        particles.update(mouse);
                            
         window.clear();
-        window.draw(particles);
+        //window.draw(particles);
         window.display();
     }
     return EXIT_SUCCESS;
