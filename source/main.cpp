@@ -1,4 +1,4 @@
-#include "Triangle.hpp"
+#include "Animator.hpp"
 
 #include <string_view>
 #include <iostream>
@@ -36,7 +36,11 @@ int main()
     sf::RenderWindow window(screen, "SFML Entities!");
     window.setFramerateLimit(60);
 
-    Triangle triangle;
+    sf::Sprite sprite(*get_texture("star"));
+    sprite.setPosition(400, 300);
+    Animator animator(sprite, 6, sf::seconds(0.1f));
+
+    sf::Clock clock;
 
     while (window.isOpen())
     {
@@ -46,10 +50,11 @@ int main()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 window.close();
 
-        triangle.rotate();
+
+        animator.update(clock.restart());
                            
         window.clear();
-        window.draw(triangle);
+        window.draw(sprite);
         window.display();
     }
     return EXIT_SUCCESS;
