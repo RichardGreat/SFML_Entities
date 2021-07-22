@@ -2,40 +2,30 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <vector>
+
 class Animator
 {
 public:
-	Animator(sf::Sprite& sprite, std::size_t duration, sf::Time delay);
-	~Animator();
+    Animator();
+    Animator(const std::vector<sf::IntRect>* frames, float rate);
+    ~Animator() = default;
 
-	void update(sf::Time delta);
-	const std::size_t count() const;
+    void setFrames(const std::vector<sf::IntRect>* frames);
+    void setRate(float fps);
+    void update(sf::Sprite& sprite, float dt /* delta time */);
+    void reset();
 
-private:
-	std::size_t m_cycle_counter;
-	std::size_t m_current_frame;
-	std::size_t m_last_frame;
-	sf::Time    m_delay;
-	sf::Time    m_elapsed_time;
-	sf::Sprite* m_sprite;
-	sf::IntRect m_frame;
+    const std::vector<sf::IntRect>* getFrames() const;
+    float                           getRate()   const;
+    bool                            isOver()    const; // End of the current cycle
+                                                      
+private:                                              
+    const std::vector<sf::IntRect>* m_frames;          // frames from a some storage
+    float                           m_current_frame;   // num of current frame
+    float                           m_fps;             // frames per second
 };
-
-Animator::Animator(sf::Sprite& sprite, std::size_t duration, sf::Time delay):
-	m_cycle_counter(0),
-	m_current_frame(0),
-	m_last_frame(duration),
-	m_sprite(&sprite)
-{
-	m_frame = m_sprite->getTextureRect();
-	m_frame.width /= duration;
-	m_sprite->setTextureRect(m_frame);
-	m_delay = delay;
-}
-
-Animator::~Animator()
-{
-}
+Animator::~Animator() = default;
 
 void Animator::update(sf::Time delta)
 {
