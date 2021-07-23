@@ -15,7 +15,7 @@ public:
     void update(sf::Time delta_time);
 
 protected:
-    sf::Vector2f to_ndc(sf::Vector2f& pos);
+    sf::Vector2f to_ndc(const sf::Vector2f& pos);
     void resetParticle(std::size_t index);
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
