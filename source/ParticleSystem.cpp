@@ -45,7 +45,7 @@ void ParticleSystem::update(sf::Time delta_time)
 	}
 }
 
-sf::Vector2f ParticleSystem::to_ndc(sf::Vector2f& pos)
+sf::Vector2f ParticleSystem::to_ndc(const sf::Vector2f& pos)
 {
 	float scr_half_w = screen.width / 2.0f;
 	float scr_half_h = screen.height / 2.0f;
