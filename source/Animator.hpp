@@ -25,28 +25,3 @@ private:
     float                           m_current_frame;   // num of current frame
     float                           m_fps;             // frames per second
 };
-Animator::~Animator() = default;
-
-void Animator::update(sf::Time delta)
-{
-	m_elapsed_time += delta;
-
-	if (m_elapsed_time >= m_delay)
-	{
-		m_current_frame++;
-		m_elapsed_time = sf::Time::Zero;
-
-		if (m_current_frame == m_last_frame)
-		{
-			m_cycle_counter++;
-			m_current_frame = 0;
-		}
-		m_frame.left = m_current_frame * m_frame.width;
-		m_sprite->setTextureRect(m_frame);
-	}
-}
-
-const std::size_t Animator::count() const
-{
-	return m_cycle_counter > 0;
-}
