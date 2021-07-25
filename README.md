@@ -19,3 +19,5 @@
 Дополнение в процессе.
 
 ![alt text](screenshots/Plume_1.png)
+![alt text](screenshots/rpg_1.png)
+![alt text](screenshots/splashes.png)
