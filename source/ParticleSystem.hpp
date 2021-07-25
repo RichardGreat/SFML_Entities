@@ -58,16 +58,22 @@
 
 extern sf::VideoMode screen;
 
-class ParticleSystem : public sf::Drawable
+class ParticleSystem :
+    public sf::Drawable
 {
 public:
     ParticleSystem(sf::Texture& texture, sf::Shader& shader, std::size_t amount);
-    ~ParticleSystem();
+    ~ParticleSystem() = default;
 
-    void setEmitter(sf::Vector2f position);
+    void setEmitter(const sf::Vector2f& position);
+    void setParticleSize(const sf::Vector2f& size);
+    void setDirection(float direction);
+    void setDispersion(float dispersion);
+    void setPower(float power);
+
     void update(sf::Time delta_time);
 
-protected:
+private:
     sf::Vector2f to_ndc(const sf::Vector2f& pos);
     void resetParticle(std::size_t index);
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -78,9 +84,16 @@ protected:
         sf::Time     m_lifetime;
     };
 
-    sf::Vector2f          m_emitter;
-    const sf::Texture*    m_texture;
-    const sf::Shader*     m_shader;
-    sf::VertexArray       m_points;
+    sf::Vector2f m_emitter;
+    sf::Vector2f m_particle_size;
+
+    float        m_direction;
+    float        m_dispersion;
+    float        m_power;
+
+    const sf::Texture* m_texture;
+    sf::Shader*        m_shader;
+
+    sf::VertexArray       m_vertices;
     std::vector<Particle> m_particles;
 };
