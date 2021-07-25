@@ -21,7 +21,7 @@
 // // Some code...
 //
 // sf::Sprite sprite(some_texture);
-// float dt = clock.restart().asseconds(); // delta time
+// float dt = clock.restart().asSeconds(); // delta time
 //
 // animator.update(sprite, dt); // Look, it's nice, isn't it?
 
