@@ -40,9 +40,9 @@ void ParticleSystem::setDispersion(float dispersion)
     m_dispersion = dispersion;
 }
 
-void ParticleSystem::setPower(float power)
+void ParticleSystem::setVelocity(float velocity)
 {
-    m_power = power;
+    m_velocity = velocity;
 }
 
 void ParticleSystem::update(sf::Time delta_time)
@@ -76,9 +76,9 @@ sf::Vector2f ParticleSystem::to_ndc(const sf::Vector2f& pos)
 void ParticleSystem::resetParticle(std::size_t index)
 {
     float angle = radians(m_direction);
-    float speed = (std::rand() % 50) + 50.f;
+    //float speed = (std::rand() % 50) + 50.f;
 
-    m_particles[index].m_velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
+    m_particles[index].m_velocity = sf::Vector2f(std::cos(angle) * m_velocity, std::sin(angle) * m_velocity);
     m_particles[index].m_lifetime = sf::milliseconds((std::rand() % 2000) + 1000);
 
     m_vertices[index].position = to_ndc(m_emitter);
