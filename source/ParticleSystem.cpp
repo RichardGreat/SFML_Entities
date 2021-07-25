@@ -97,7 +97,7 @@ void ParticleSystem::resetParticle(std::size_t index)
     float dispersion = m_dispersion != 0 ? rand() % static_cast<int>(m_dispersion) - m_dispersion / 2.0f : 0;
     float angle = static_cast<float>((m_direction + dispersion) * M_PI / 180.0f);
 
-    m_particles[index].m_velocity = sf::Vector2f(std::cos(angle) * m_velocity, std::sin(angle) * m_velocity);
+    m_particles[index].m_velocity = sf::Vector2f(std::cosf(angle) * m_velocity, std::sinf(angle) * m_velocity);
     m_particles[index].m_lifetime = sf::milliseconds(std::rand() % m_max_lifetime.asMilliseconds() + 1000);
 
     m_vertices[index].position = to_ndc(m_emitter);
