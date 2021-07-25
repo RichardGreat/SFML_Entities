@@ -119,7 +119,7 @@ private:
 //        auto pos = window.mapPixelToCoords(mouse);
 //        ps.setEmitter(window.mapPixelToCoords(mouse));
 //       
-//        // Если нажата эта клавиша, вращаем эмиссию по часовой стрелке
+//        // Если нажата эта клавиша, вращаем эмиссию против часовой стрелки
 //        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 //        {
 //            dir -= 5;
