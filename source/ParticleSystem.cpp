@@ -34,7 +34,7 @@ void ParticleSystem::setDirection(float direction)
 
 void ParticleSystem::setDispersion(float dispersion)
 {
-    m_dispersion = dispersion;
+    m_dispersion = fmod(dispersion, 360);
 }
 
 void ParticleSystem::setVelocity(float velocity)
