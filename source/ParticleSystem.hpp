@@ -69,7 +69,7 @@ public:
     void setParticleSize(const sf::Vector2f& size);
     void setDirection(float direction);
     void setDispersion(float dispersion);
-    void setPower(float power);
+    void setVelocity(float power);
 
     void update(sf::Time delta_time);
 
@@ -89,10 +89,10 @@ private:
 
     float        m_direction;
     float        m_dispersion;
-    float        m_power;
+    float        m_velocity;
 
     const sf::Texture* m_texture;
-    sf::Shader*        m_shader;
+    sf::Shader* m_shader;
 
     sf::VertexArray       m_vertices;
     std::vector<Particle> m_particles;
