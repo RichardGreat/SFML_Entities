@@ -5,7 +5,7 @@
 
 float radians(int angle)
 {
-	angle %= 360;
+	angle = fmod(angle, 360);
 	return angle * M_PI / 180.0f;
 }
 
