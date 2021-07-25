@@ -13,7 +13,7 @@ sf::Texture* get_texture(const std::string_view filename) noexcept
 
 	if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".png"))
 		if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".jpg"))
-		{
+		{ //    При сбое загрузки основных форматов изображений будет создан красный квадрат 50х50 пикселей
 			sf::Image image;
 			image.create(50, 50, sf::Color::Red);
 			new_texture.loadFromImage(image);
