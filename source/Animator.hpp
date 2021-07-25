@@ -4,6 +4,27 @@
 
 #include <vector>
 
+// Легковесный класс для воспроизведения линейной анимации
+// Для работы необходим указатель на массив кадров, загружаемый отдельно
+// во избежание излишних накладных расходов на динамическое выделение памяти,
+// и скорость анимации, измеряемой в кадр/сек
+
+// Brief:
+// 
+// std::vector<sf::IntRect> frames;
+// const float FPS = 48; // 48 frames per sec
+//
+// sf::Clock clock;
+//
+// Animator animator(&frames, FPS);
+//
+// // Some code...
+//
+// sf::Sprite sprite(some_texture);
+// float dt = clock.restart().asseconds(); // delta time
+//
+// animator.update(sprite, dt); // Look, it's nice, isn't it?
+
 class Animator
 {
 public:
