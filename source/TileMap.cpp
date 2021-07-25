@@ -131,7 +131,7 @@ bool TileMap::load(const char* tmx_file_path, const sf::Texture* tileset)
 	return true;
 }
 
-sf::Vector2u TileMap::bounds() const
+const sf::Vector2u& TileMap::bounds() const
 {
 	return m_bounds;
 }
