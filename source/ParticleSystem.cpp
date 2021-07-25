@@ -10,6 +10,11 @@ float radians(int angle)
 }
 
 ParticleSystem::ParticleSystem(sf::Texture& texture, sf::Shader& shader, std::size_t amount) :
+    m_direction(0),
+    m_dispersion(0),
+    m_velocity(0),
+    m_texture(nullptr),
+    m_shader(nullptr),
     m_vertices(sf::Points, amount),
     m_particles(amount)
 {
@@ -20,14 +25,6 @@ ParticleSystem::ParticleSystem(sf::Texture& texture, sf::Shader& shader, std::si
 void ParticleSystem::setEmitter(const sf::Vector2f& position)
 {
     m_emitter = position;
-}
-
-void ParticleSystem::setParticleSize(const sf::Vector2f& size)
-{
-    m_particle_size = size;
-
-    if(m_shader)
-        m_shader->setUniform("size", sf::Vector2f(32, 32));
 }
 
 void ParticleSystem::setDirection(float direction)
@@ -75,8 +72,8 @@ sf::Vector2f ParticleSystem::to_ndc(const sf::Vector2f& pos)
 
 void ParticleSystem::resetParticle(std::size_t index)
 {
-    float angle = radians(m_direction);
-    //float speed = (std::rand() % 50) + 50.f;
+    float dispersion = m_dispersion != 0 ? rand() % static_cast<int>(m_dispersion) - m_dispersion / 2.0f : 0;
+    float angle = radians(m_direction + dispersion);
 
     m_particles[index].m_velocity = sf::Vector2f(std::cos(angle) * m_velocity, std::sin(angle) * m_velocity);
     m_particles[index].m_lifetime = sf::milliseconds((std::rand() % 2000) + 1000);
