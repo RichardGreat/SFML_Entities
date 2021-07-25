@@ -10,21 +10,39 @@ float radians(int angle)
 }
 
 ParticleSystem::ParticleSystem(sf::Texture& texture, sf::Shader& shader, std::size_t amount) :
-    m_points(sf::Points, amount),
+    m_vertices(sf::Points, amount),
     m_particles(amount)
 {
     m_texture = &texture;
     m_shader = &shader;
 }
 
-ParticleSystem::~ParticleSystem()
-{
-    m_points.clear();
-}
-
-void ParticleSystem::setEmitter(sf::Vector2f position)
+void ParticleSystem::setEmitter(const sf::Vector2f& position)
 {
     m_emitter = position;
+}
+
+void ParticleSystem::setParticleSize(const sf::Vector2f& size)
+{
+    m_particle_size = size;
+
+    if(m_shader)
+        m_shader->setUniform("size", sf::Vector2f(32, 32));
+}
+
+void ParticleSystem::setDirection(float direction)
+{
+    m_direction = fmod(direction, 360);
+}
+
+void ParticleSystem::setDispersion(float dispersion)
+{
+    m_dispersion = dispersion;
+}
+
+void ParticleSystem::setPower(float power)
+{
+    m_power = power;
 }
 
 void ParticleSystem::update(sf::Time delta_time)
@@ -37,10 +55,10 @@ void ParticleSystem::update(sf::Time delta_time)
         if (particle.m_lifetime <= sf::Time::Zero)
             resetParticle(i);
 
-        m_points[i].position += particle.m_velocity * delta_time.asSeconds() / float(screen.width);
+        m_vertices[i].position += particle.m_velocity * delta_time.asSeconds() / float(screen.width);
 
         float ratio = particle.m_lifetime / sf::seconds(3.0f);
-        m_points[i].color.a = static_cast<sf::Uint8>(ratio * 255);
+        m_vertices[i].color.a = static_cast<sf::Uint8>(ratio * 255);
     }
 }
 
@@ -57,18 +75,18 @@ sf::Vector2f ParticleSystem::to_ndc(const sf::Vector2f& pos)
 
 void ParticleSystem::resetParticle(std::size_t index)
 {
-    float angle = radians(std::rand() % 360);
+    float angle = radians(m_direction);
     float speed = (std::rand() % 50) + 50.f;
 
     m_particles[index].m_velocity = sf::Vector2f(std::cos(angle) * speed, std::sin(angle) * speed);
     m_particles[index].m_lifetime = sf::milliseconds((std::rand() % 2000) + 1000);
 
-    m_points[index].position = to_ndc(m_emitter);
+    m_vertices[index].position = to_ndc(m_emitter);
 }
 
 void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.shader = m_shader;
     states.texture = m_texture;
-    target.draw(m_points, states);
+    target.draw(m_vertices, states);
 }
