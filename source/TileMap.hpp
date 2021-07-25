@@ -18,7 +18,7 @@ public:
 	~TileMap() = default;
 
 	bool load(const char* tmx_file_path, const sf::Texture* tileset);
-	sf::Vector2u bounds() const;
+	const sf::Vector2u& bounds() const;
 
 private:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
