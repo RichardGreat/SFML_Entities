@@ -39,9 +39,6 @@ public:
     void update(sf::Time delta_time);
 
 private:
-    // Перевод экранных координат точки эмиссии в координаты нормализованного устройства (NDC)
-    sf::Vector2f to_ndc(const sf::Vector2f& pos);
-
     // Обновление отдельно взятой частицы по истечении её жизненного цикла
     void resetParticle(std::size_t index);
 
