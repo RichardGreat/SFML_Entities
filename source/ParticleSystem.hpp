@@ -8,7 +8,7 @@ extern sf::VideoMode screen;
 class ParticleSystem : public sf::Drawable
 {
 public:
-    ParticleSystem(sf::Texture& texture, sf::Shader& shader, sf::BlendMode& mode, std::size_t amount);
+    ParticleSystem(sf::Texture& texture, sf::Shader& shader, std::size_t amount);
     ~ParticleSystem();
 
     void setEmitter(sf::Vector2f position);
@@ -26,7 +26,8 @@ protected:
     };
 
     sf::Vector2f          m_emitter;
-    sf::RenderStates      m_states;
+    const sf::Texture*    m_texture;
+    const sf::Shader*     m_shader;
     sf::VertexArray       m_points;
     std::vector<Particle> m_particles;
 };
