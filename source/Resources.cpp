@@ -10,7 +10,7 @@ sf::Texture* get_texture(const std::string_view filename) noexcept
 		return &found->second;
 
 	sf::Texture new_texture;
-
+//      Подразумевается, что текстуры хранятся в папке textures основной директории проекта
 	if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".png"))
 		if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".jpg"))
 		{ //    При сбое загрузки основных форматов изображений будет создан красный квадрат 50х50 пикселей
