@@ -13,8 +13,8 @@ const std::vector<sf::IntRect>* AnimationManager::get(const std::string_view id)
 
 AnimationManager::AnimationManager()
 {
-	createAnimation("puppy_walk", 12);  // Будет создана анимация из 12 кадров
-	createAnimation("explosion", 4, 4); // Будет создана анимация из 16 кадров
+	createAnimation("puppy_walk", 12);   // Р‘СѓРґРµС‚ СЃРѕР·РґР°РЅР° Р°РЅРёРјР°С†РёСЏ РёР· 12 РєР°РґСЂРѕРІ
+	createAnimation("explosion", 4, 4);  // Р‘СѓРґРµС‚ СЃРѕР·РґР°РЅР° Р°РЅРёРјР°С†РёСЏ РёР· 16 РєР°РґСЂРѕРІ
 }
 
 void AnimationManager::createAnimation(const std::string_view title, int duration)
