@@ -18,7 +18,7 @@ sf::Font*    get_font(const std::string_view filename)    noexcept;
 // #include <cassert>
 //
 // auto font = get_font("my_font");
-// assert(font);
+// assert(font, "Failed to load font!");
 //
 // sf::Text my_text;
 // my_text.setFont(*font);
