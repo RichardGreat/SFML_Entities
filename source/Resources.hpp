@@ -10,7 +10,10 @@ sf::Font*    get_font(const std::string_view filename)    noexcept;
 // Brief:
 //
 // auto texture = get_texture("my_texture");
-// sf::Sprite(*texture);
+// texture->setRepeated(true);
+//
+// sf::RectangleShape background(1200, 720);
+// background.setTexture(texture)
 // ...
 // Draw it!
 //
