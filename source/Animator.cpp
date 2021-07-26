@@ -18,7 +18,7 @@ void Animator::setFrames(const std::vector<sf::IntRect>*frames)
 
 void Animator::setRate(float fps)
 {
-    m_fps = fps;
+    m_fps = std::fabs(fps);
 }
 
 void Animator::update(sf::Sprite& sprite, float dt)
