@@ -4,8 +4,6 @@
 
 #include <SFML/Graphics.hpp>
 
-extern sf::VideoMode screen;
-
 class ParticleSystem :
     public sf::Drawable,
     private sf::NonCopyable
