@@ -116,7 +116,6 @@ private:
 //        
 //        // Задаём точку эмисии
 //        sf::Vector2i mouse = sf::Mouse::getPosition(window);
-//        auto pos = window.mapPixelToCoords(mouse);
 //        ps.setEmitter(window.mapPixelToCoords(mouse));
 //       
 //        // Если нажата эта клавиша, вращаем эмиссию против часовой стрелки
