@@ -14,7 +14,7 @@
 // ...
 //
 // sf::Sprite sprite;
-// sprite.setTexture(t_holder.get("texture_name"));
+// sprite.setTexture(*t_holder.get("texture_name"));
 // 
 // ...
 // 
