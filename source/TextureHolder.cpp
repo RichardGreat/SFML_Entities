@@ -5,22 +5,17 @@
 
 void TextureHolder::load(const std::string_view folder)
 {
-    std::list<std::string> file_pathes;
+    std::list<std::filesystem::path> file_pathes;
 
     for (auto& file : std::filesystem::recursive_directory_iterator(folder))
-        file_pathes.emplace_back(file.path().string());
+        file_pathes.emplace_back(file.path());
 
     for (const auto& path : file_pathes)
     {
         sf::Texture texture;
-        texture.loadFromFile(path);
+        texture.loadFromFile(path.string());
 
-        auto start = path.find_last_of("\\");
-        auto end = path.find_last_of('.');
-
-        auto texture_name = path.substr(start + 1, end - start - 1);
-
-        m_textures.emplace(std::move(texture_name), texture);
+        m_textures.emplace(path.stem().string(), texture);
     }
 }
 
