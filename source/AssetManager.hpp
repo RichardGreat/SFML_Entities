@@ -8,6 +8,8 @@
 
 // Brief:
 //
+// #include <cassert>
+//
 // AssetManager<sf::Texture> textures;
 // textures.load("textures");
 //
