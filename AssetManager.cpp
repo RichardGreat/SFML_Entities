@@ -1,9 +1,10 @@
-#include "TextureHolder.hpp"
+#include "AssetManager.hpp"
 
 #include <list>
 #include <filesystem>
 
-void TextureHolder::load(const std::string_view folder)
+template<class Resource>
+void AssetManager<Resource>::load(const std::string_view folder)
 {
     std::list<std::filesystem::path> file_pathes;
 
@@ -12,14 +13,15 @@ void TextureHolder::load(const std::string_view folder)
 
     for (const auto& path : file_pathes)
     {
-        sf::Texture texture;
-        texture.loadFromFile(path.string());
+        Resource resource;
 
-        m_textures.emplace(path.stem().string(), texture);
+        if (resource.loadFromFile(path.string()))
+            m_resources.emplace(path.stem().string(), resource);       
     }
 }
 
-sf::Texture* TextureHolder::get(const std::string& name)
+template<class Resource>
+Resource* AssetManager<Resource>::get(const std::string& name)
 {
     if (auto found = m_textures.find(name); found != m_textures.end())
         return &found->second;
