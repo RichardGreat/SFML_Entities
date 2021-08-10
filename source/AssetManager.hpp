@@ -39,3 +39,5 @@ public:
 private:
 	std::map<std::string, Resource> m_resources;
 };
+
+#include <AssetManager.inl>
