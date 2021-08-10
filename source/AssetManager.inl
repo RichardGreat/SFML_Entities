@@ -1,5 +1,3 @@
-#include "AssetManager.hpp"
-
 #include <filesystem>
 
 template<class Resource>
