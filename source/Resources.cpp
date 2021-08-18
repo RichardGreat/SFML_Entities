@@ -2,18 +2,24 @@
 
 #include <map>
 
-sf::Texture* get_texture(const std::string_view filename) noexcept
+sf::Texture* get_texture(const std::string& filename, bool reset) noexcept
 {
-	static std::map<std::string_view, sf::Texture> textures;
+	static std::map<std::string, sf::Texture> textures;
+
+	if (reset)
+	{
+		textures.clear();
+		return nullptr;
+	}
 
 	if (auto found = textures.find(filename); found != textures.end())
 		return &found->second;
 
 	sf::Texture new_texture;
-//      Подразумевается, что текстуры хранятся в папке textures основной директории проекта
-	if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".png"))
-		if (!new_texture.loadFromFile("textures/" + std::string(filename) + ".jpg"))
-		{ //    При сбое загрузки основных форматов изображений будет создан красный квадрат 50х50 пикселей
+
+	if (!new_texture.loadFromFile("textures/" + filename + ".png"))
+		if (!new_texture.loadFromFile("textures/" + filename + ".jpg"))
+		{
 			sf::Image image;
 			image.create(50, 50, sf::Color::Red);
 			new_texture.loadFromImage(image);
