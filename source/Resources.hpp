@@ -4,7 +4,7 @@
 
 #include <string_view>
 
-sf::Texture* get_texture(const std::string_view filename) noexcept;
+sf::Texture* get_texture(const std::string& filename, bool reset = false) noexcept;
 sf::Font*    get_font(const std::string_view filename)    noexcept;
 
 // Brief:
