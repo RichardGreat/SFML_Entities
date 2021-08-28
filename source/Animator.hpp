@@ -12,6 +12,8 @@
 // Brief:
 // 
 // std::vector<sf::IntRect> frames;
+// // Note: More information is available from the AnimationManager.hpp
+//
 // const float FPS = 48; // 48 frames per sec
 //
 // sf::Clock clock;
