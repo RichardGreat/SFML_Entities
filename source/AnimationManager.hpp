@@ -18,11 +18,11 @@
 // AnimationManager am();
 // am.create("puppy_walk", texture, duration, frames_per_sec);
 //
-// Animator animator = am.get("puppy_walk");
+// Animator animator = am.get("puppy_walk"); // Note: More information is available from the Animator.hpp
 // 
 // ..
 // 
-// Play it! // Note: More information is available from the Animator.hpp
+// Play it! 
 //
 
 class AnimationManager
