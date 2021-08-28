@@ -22,7 +22,7 @@
 // 
 // ..
 // 
-// Play it! // Note: for more information see the Animator.hpp
+// Play it! // Note: More information is available from the Animator.hpp
 //
 
 class AnimationManager
