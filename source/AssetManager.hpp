@@ -26,18 +26,18 @@
 // Draw it!
 
 template <class Resource>
-class AssetManager:
-	private sf::NonCopyable
+class AssetManager :
+    private sf::NonCopyable
 {
 public:
-	AssetManager() = default;
-	~AssetManager() = default;
+    AssetManager() = default;
+    ~AssetManager() = default;
 
-	void load(const std::string_view folder);
-	Resource* get(const std::string& name);
+    void loadFromDirectory(const std::string&folder);
+    Resource* get(const std::string& name);
 
 private:
-	std::map<std::string, Resource> m_resources;
+    std::map<std::string, Resource> m_resources;  
 };
 
 #include <AssetManager.inl>
