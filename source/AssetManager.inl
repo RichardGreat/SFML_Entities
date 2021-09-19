@@ -3,8 +3,6 @@
 template<class Resource>
 void AssetManager<Resource>::loadFromDirectory(const std::string& folder)
 {
-    std::list<std::filesystem::path> file_pathes;
-
     for (auto& file : std::filesystem::recursive_directory_iterator(folder))
     {
         Resource resource;
