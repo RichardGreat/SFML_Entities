@@ -7,8 +7,9 @@ void AssetManager<Resource>::loadFromDirectory(const std::string& folder)
     {
         Resource resource;
 
-        if (resource.loadFromFile(file.path().string()))
-            m_resources.emplace(file.path().stem().string(), resource);
+        if (file.path().has_extension())
+                if (resource.loadFromFile(file.path().string()))
+                    m_resources.emplace(file.path().stem().string(), resource);
     }
 }
 
