@@ -4,7 +4,6 @@
 
 #include <map>
 #include <string>
-#include <string_view>
 
 // Brief:
 //
@@ -33,7 +32,7 @@ public:
     AssetManager() = default;
     ~AssetManager() = default;
 
-    void loadFromDirectory(const std::string&folder);
+    void loadFromDirectory(const std::string& folder);
     Resource* get(const std::string& name);
 
 private:
