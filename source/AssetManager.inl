@@ -1,19 +1,16 @@
 #include <filesystem>
 
 template<class Resource>
-void AssetManager<Resource>::load(const std::string_view folder)
+void AssetManager<Resource>::loadFromDirectory(const std::string& folder)
 {
     std::list<std::filesystem::path> file_pathes;
 
     for (auto& file : std::filesystem::recursive_directory_iterator(folder))
-        file_pathes.emplace_back(file.path());
-
-    for (const auto& path : file_pathes)
     {
         Resource resource;
 
-        if (resource.loadFromFile(path.string()))
-            m_resources.emplace(path.stem().string(), resource);       
+        if (resource.loadFromFile(file.path().string()))
+            m_resources.emplace(file.path().stem(), resource);
     }
 }
 
