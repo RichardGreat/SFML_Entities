@@ -33,7 +33,7 @@ public:
     ~AssetManager() = default;
 
     void loadFromDirectory(const std::string& folder);
-    Resource* get(const std::string& name);
+    Resource* get(const std::string& name) const;
 
 private:
     std::map<std::string, Resource> m_resources;  
