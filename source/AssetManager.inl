@@ -1,3 +1,5 @@
+#include "AssetManager.hpp"
+
 #include <filesystem>
 
 template<class Resource>
@@ -8,8 +10,8 @@ void AssetManager<Resource>::loadFromDirectory(const std::string& folder)
         Resource resource;
 
         if (file.path().has_extension())
-                if (resource.loadFromFile(file.path().string()))
-                    m_resources.emplace(file.path().stem().string(), resource);
+            if (resource.loadFromFile(file.path().string()))
+                m_resources.emplace(file.path().stem().string(), resource);
     }
 }
 
@@ -21,3 +23,10 @@ Resource* AssetManager<Resource>::get(const std::string& name) const
 
     return nullptr;
 }
+
+template<class Resource>
+inline void AssetManager<Resource>::release()
+{
+    m_resources.clear();
+}
+
