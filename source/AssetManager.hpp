@@ -34,9 +34,10 @@ public:
 
     void loadFromDirectory(const std::string& folder);
     Resource* get(const std::string& name) const;
+    void release();
 
 private:
-    std::map<std::string, Resource> m_resources;  
+    std::map<std::string, Resource> m_resources;
 };
 
-#include <AssetManager.inl>
+#include "AssetManager.inl"
