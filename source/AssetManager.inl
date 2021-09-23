@@ -16,7 +16,7 @@ void AssetManager<Resource>::loadFromDirectory(const std::string& folder)
 }
 
 template<class Resource>
-Resource* AssetManager<Resource>::get(const std::string& name) const
+Resource* AssetManager<Resource>::get(const std::string& name)
 {
     if (auto found = m_resources.find(name); found != m_resources.end())
         return &found->second;
