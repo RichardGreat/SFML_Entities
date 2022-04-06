@@ -1,140 +1,91 @@
-#pragma once
+#include <SFML/Graphics.hpp>
 
 #include <vector>
 
-#include <SFML/Graphics.hpp>
-
 class ParticleSystem :
-    public sf::Drawable,
-    private sf::NonCopyable
+	public sf::Drawable
 {
 public:
-    ParticleSystem(const sf::Texture* texture, sf::Shader* shader, std::size_t amount);
-    ~ParticleSystem() = default;
+	enum ScalingMode :
+		std::size_t
+	{
+		Off = 0,
+		Decreasing,		
+		Increasing
+	};
 
-    // Устанавливает точку эмиссии
-    void setEmitter(const sf::Vector2f& position);
+	ParticleSystem();
 
-    // Устанавливает направление эмиссии( параметр: угол в градусах )
-    void setDirection(float direction);
+	void setTexture(const sf::Texture* texture);
+	void setColor(const sf::Color& color);
+	void setShader(const sf::Shader* shader);
+	void setBlendMode(const sf::BlendMode& blend_mode);
 
-    // Устанавливает дисперсию( ширину сектора "распыления") частиц( параметр: угол в градусах )
-    void setDispersion(float dispersion);
+	void setParticleSize(const sf::Vector2f& size);
+	void setEmitter(const sf::Vector2f& emitter);
+	void setDirection(sf::Angle direction);
+	void setDispersion(sf::Angle dispersion);
+	void setVelocity(float velocity);
+	void setRespawnRate(float rate); // Explanation : setRespawnRate(4) will be respawn 4 particles per second
+	void setRespawnArea(const sf::Vector2f& area);
+	void setLifeTime(float lifetime);
 
-    // Устанавливает скорость эмиссии( параметр: скорость в пикселях в секунду )
-    void setVelocity(float velocity);
+	void setEmitted(bool emitted);
+	void setAttenuated(bool attenuation);
+	void setScalingMode(ScalingMode mode);
 
-    // Устанавливает максимальное время жизненного цикла частицы( параметр: значение в объекте sf::Time )
-    void setMaxLifeTime(sf::Time lifetime);
+	void init(std::size_t amount);
+	void update(float dt);
 
-    // Getters
-    const sf::Vector2f& getEmitter()     const;
-    float               getDirection()   const;
-    float               getDispersion()  const;
-    float               getVelocity()    const;
-    const sf::Time&     getMaxLifeTime() const;
+	const sf::RenderStates& getStates()       const;
+	sf::Color               getColor()        const;
+	const sf::Vector2f&     getParticleSize() const;
+	const sf::Vector2f&     getEmitter()      const;
+	sf::Angle               getDirection()    const;
+	sf::Angle               getDispersion()   const;
+	float                   getVelocity()     const;
+	float                   getRespawnRate()  const;
+	const sf::Vector2f&     getRespawnArea()  const;
+	float                   getLifeTime()     const;
 
-    void update(sf::Time delta_time);
+	bool        isEmitted()      const;
+	bool        isAttenuated()   const;
+	ScalingMode getScalingMode() const;
 
 private:
-    // Обновление отдельно взятой частицы по истечении её жизненного цикла
-    void resetParticle(std::size_t index);
+	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
-    // Рендеринг массива частиц
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	std::size_t findUnusedParticle();
+	void        respawnParticle(std::size_t index);
+	
+private:
+	struct Particle
+	{
+		sf::Vector2f velocity;
+		float        lifetime = 0.0f;
+	};
 
-    struct Particle
-    {
-        sf::Vector2f m_velocity;
-        sf::Time     m_lifetime;
-    };
+	mutable sf::RenderStates m_states;
+	std::vector<sf::Vertex>  m_vertices;
+	std::vector<Particle>    m_particles;
 
-    sf::Vector2f          m_emitter;
-    float                 m_direction;
-    float                 m_dispersion;
-    float                 m_velocity;
+	sf::Vector2f m_emitter;
+	sf::Vector2f m_respawn_area;
+	sf::Vector2f m_particle_size;
 
-    const sf::Texture*    m_texture;
-    sf::Shader*           m_shader;
-    sf::VertexArray       m_vertices;
-    std::vector<Particle> m_particles;
-    sf::Time              m_max_lifetime;
+	std::size_t m_amount;
+	std::size_t m_last_used_particle;
+
+	sf::Angle m_direction;
+	sf::Angle m_dispersion;
+
+	float m_velocity;
+	float m_lifetime_max;
+	float m_rate;
+	float m_timer;
+
+	bool m_is_emitted;
+	bool m_is_attenuated;
+
+	ScalingMode m_scaling_mode;
 };
-
-//                                                               Тестовый код:
-//
-// sf::VideoMode screen(1200, 800); // Параметры экрана
-// 
-// 
-//int main()
-//{
-//    srand(static_cast<unsigned>(time(0)));
-//
-//    sf::RenderWindow window(screen, "Simple shaders!");
-//    window.setFramerateLimit(60);
-//
-//    sf::Texture texture;
-//    texture.loadFromFile("path/texture.png");
-//    texture.setSmooth(true);
-// 
-//    // Проверяем поддержку шейдера
-//    sf::Shader shader;
-//
-//    if (!sf::Shader::isGeometryAvailable())
-//        return EXIT_FAILURE;
-//
-//    if (!shader.loadFromFile("path/shader.vert", "path/shader.geom", "path/shader.frag"))
-//        return EXIT_FAILURE;
-// 
-//    // Устанавливаем глобальные переменные
-//    shader.setUniform("resolution", sf::Vector2f((float)screen.width, (float)screen.height));
-//    shader.setUniform("size", sf::Vector2f(50, 50));
-//    shader.setUniform("texture", sf::Shader::CurrentTexture);
-//
-//    ParticleSystem ps(&texture, &shader, 100);
-//
-//    sf::Clock clock;
-//    sf::Time delta_time;
-//
-//    float dir = 0;  // Направление в градусах
-//    float disp = 0; // Дисперсия в градусах
-//
-//    ps.setVelocity(500);               // Скорость в пикс/сек
-//    ps.setMaxLifeTime(sf::seconds(3)); // Максимальная продолжительность жизни частицы
-//
-//    while (window.isOpen())
-//    {
-//        static sf::Event event;
-//
-//        while (window.pollEvent(event))
-//            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-//                window.close();
-//
-//        delta_time = clock.restart();
-//        
-//        // Задаём точку эмисии
-//        sf::Vector2i mouse = sf::Mouse::getPosition(window);
-//        ps.setEmitter(window.mapPixelToCoords(mouse));
-//       
-//        // Если нажата эта клавиша, вращаем эмиссию против часовой стрелки
-//        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-//        {
-//            dir -= 5;
-//            ps.setDirection(dir);
-//        }
-//     
-//        // Если нажата эта клавиша, увеличиваем дисперсию
-//        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-//        {
-//            disp++;
-//            ps.setDispersion(disp);
-//        }
-// 
-//       ps.update(delta_time);
-//
-//       window.clear();
-//       window.draw(ps);
-//       window.display();
-//    }
-//    return EXIT_SUCCESS;
-//}
