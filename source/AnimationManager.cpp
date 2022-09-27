@@ -11,7 +11,7 @@ AnimationManager::~AnimationManager()
 
 void AnimationManager::create(const std::string& id, const sf::Texture* texture, int duration, float rate)
 {
-	std::unique_ptr<std::vector<sf::IntRect>> frames;
+	auto frames = std::make_unique<std::vector<sf::IntRect>>();
 	frames->reserve(duration);
 
 	auto tex_size = texture->getSize();
@@ -27,7 +27,7 @@ void AnimationManager::create(const std::string& id, const sf::Texture* texture,
 
 void AnimationManager::create(const std::string& id, const sf::Texture* texture, int rows, int columns, float rate)
 {
-	std::unique_ptr<std::vector<sf::IntRect>> frames;
+	auto frames = std::make_unique<std::vector<sf::IntRect>>();
 	frames->reserve(columns * rows);
 
 	auto tex_size = texture->getSize();
